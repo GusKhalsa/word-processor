@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=utf-8>
+	<title>CO323 | Word Processor</title>
+	<style>
+	
+	* {
+		box-sizing: border-box;
+	}
+	
+	body {
+		background-color: #7F7F7F;
+	}
+	
+	.word-processor {
+		width: 90%
+		border: 2px solid black;
+		float: left;
+	}
+	
+	.tools{
+		font-family: Palatino Linotype, serif;
+		width = 50%;
+		padding: 1.5em;
+		margin: 10px;
+		border: 2px solid black;
+		float: left;
+		text-align: center;
+		background-color: #003D3D;
+	}
+	
+	.text {
+		margin: 1em;
+		float: left;
+		width: 50%;
+        height: 50%;
+	}
+	
+	 textarea {
+         box-sizing: border-box;
+		 width: auto;
+		 height: auto;
+		 resize: none;
+		 overflow: scroll;
+    }
+
+	#bold {
+		font-weight: 900;
+	}
+	
+	#italic {
+		font-style: italic;
+		font-family: Ariel, serif;
+	}
+	
+	#underline {
+		text-decoration: underline;
+	}
+	
+	.rgb-field {
+		float: left;
+		margin-right: 15%;
+	}
+	
+	.rgb {
+		width: 2em;
+	}
+	
+	h4{
+		margin: 0px 0px;
+	}
+	
+	h2 {
+		border: 2px solid black;
+	}
+	
+	h4, h3, h2 {
+		color: #FFF;
+	}
+	
+	.text-style-button {
+		padding: 1.1em;
+		margin: 7%;
+	}
+	
+	.text-style-button:hover {
+		background-color: black;
+		color: white;
+	}
+	
+	
+	</style>
+	
+</head>
+
+<body>
+
+<!-- Functions for tools -->
+	<script type="text/javascript">
+		
+		/*Sets to bold and unsets if text is already bold.
+		*/
+		function setBold(){
+			if(document.getElementById('text-area').style.fontWeight === 'bold'){
+				document.getElementById('text-area').style.fontWeight = 'normal';
+			}else{
+				document.getElementById('text-area').style.fontWeight = 'bold';
+			}
+		}
+		
+		/*Text is set to italic and unsets if text is already italic.
+		*/
+		function setItalic(){
+			if(document.getElementById('text-area').style.fontStyle === 'italic'){
+				document.getElementById('text-area').style.fontStyle = 'normal';
+			}else{
+				document.getElementById('text-area').style.fontStyle = 'italic';
+			}
+		}
+		
+		/*Text is underlined and unsets if text is already underlined. 
+		*/
+		function underlineText(){
+			if(document.getElementById('text-area').style.textDecoration === 'underline'){
+				document.getElementById('text-area').style.textDecoration = 'initial';
+			}else{
+				document.getElementById('text-area').style.textDecoration = 'underline';
+			}
+		}
+		
+		/* Changes the colour of the text.
+		   The parameter colour is the value of the option selected from the drop down menu.
+		*/
+		function colourText(colour){
+			document.getElementById('text-area').style.color = colour;
+		}
+		
+		/* Changes the font of the text.
+		   The parameter font is the value of the option selected from tthe drop down menu.
+		*/
+		function fontText(font){
+			document.getElementById('text-area').style.fontFamily = font;
+		}
+		
+		/*
+			Changes the background of the text area based on the values entered in the RGB fields.
+		*/
+		function changeBackground(){
+			var red = document.getElementById('red-field').value;
+			var green = document.getElementById('green-field').value;
+			var blue = document.getElementById('blue-field').value;
+			if(isNaN(red) || isNaN(green) || isNaN(red)){
+				alert('One or more RGB fields do not contain a number!');
+			}else if((red >255 || red < 0) || (green > 255 || green < 0) || (blue > 255 || blue < 0) ){
+				alert('One or more RGB fields are out of range! (Ensure your values are between 0-255)');
+			}else{
+				document.getElementById('text-area').style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+			}
+		}
+		
+	</script>
+	
+	<!-- Tools -->
+	<div class='word-processor'>
+		<div class='tools'>
+			<h2> Tools </h2>
+			<form name='my-form'>
+				<div id='text-styling'>
+					<input class='text-style-button' id='bold' type='button' value='B' onclick='setBold();'> 
+					<input class='text-style-button' id='italic' type='button' value='I' onclick='setItalic();'> 
+					<input class='text-style-button' id='underline' type='button' value='U' onclick='underlineText()'> 
+				</div>	
+				<div class='colour-dropdown'>
+					<h3>Text Colour | 
+						<select name='colours' onchange='colourText(this.value);'>
+							<!-- 10 colour options -->
+							<option>Select Text Colour</option>
+							<option value='black'>Black</option>
+							<option value='white'>White</option>
+							<option value='red'>Red</option>
+							<option value='green'>Green</option>
+							<option value='blue'>Blue</option>
+							<option value='yellow'>Yellow</option>
+							<option value='orange'>Orange</option>
+							<option value='purple'>Purple</option>
+							<option value='brown'>Brown</option>
+							<option value='pink'>Pink</option>
+						</select>
+					</h3>
+				</div>	
+				<div class='font-dropdown'>
+					<h3>Font | 
+						<select name='fonts' onchange='fontText(this.value);'>
+							<!-- 5 font options -->
+							<option>Select Font</option>
+							<option value='times new roman'>Times New Roman</option>
+							<option value='arial'>Arial</option>
+							<option value='impact'>Impact</option>
+							<option value='century gothic'>Century Gothic</option>
+							<option value='bradley hand itc'>Bradley Hand ITC</option>
+							
+						</select>
+					</h3>
+				</div>
+				<h4>----------| Background Colour|-----------</h4>
+				<div class='rgb-field'>
+					<h3>R
+						<input class='rgb' id='red-field' type='text' onchange='changeBackground();'> 
+					</h3>
+				</div>
+				<div class='rgb-field'>
+					<h3>G
+						<input class='rgb' id='green-field' type='text' onchange='changeBackground();'> 
+					</h3>
+				</div>
+				<div class='rgb-field'>
+					<h3>B
+						<input class='rgb' id='blue-field' type='text' onchange='changeBackground();'> 
+					</h3>
+				</div>
+				
+				
+				
+			</form>
+		</div>
+		<div class='text'>
+			<textarea id='text-area' rows='35' cols='100'></textarea> <br>
+		</div>
+		
+	</div>
+	<address>Version: 01/03/17<br>By, Gursimran Khalsa(gk264)</address>
+	
+</body>
+
+</html>
+
